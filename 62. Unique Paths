@@ -1,0 +1,16 @@
+https://leetcode.com/problems/unique-paths/description/
+
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        if(m > n)
+            swap(m, n); //если m > n меняем их значения местами
+        int length = m + n - 2; // длина пути робота
+        long int q = 1, p = 1;
+        for(int i = 1; i < m; i++)
+            p *= length + 1 - i;
+        for(int i = 2; i < m; i++)
+            q *= i;
+        return p / q;
+    }
+};
