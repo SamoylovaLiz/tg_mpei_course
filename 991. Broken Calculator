@@ -1,0 +1,15 @@
+https://leetcode.com/problems/broken-calculator/description/
+
+class Solution {
+public:
+    int brokenCalc(int X, int Y) {
+        if(X >= Y)        
+            return X - Y; //если х больше у, то мы можем только вычитать 1
+        if(Y % 2){          // проверяем делится ли y на 2
+            return brokenCalc(X, Y + 1) + 1; 
+        }
+        else{
+            return brokenCalc(X, Y / 2) + 1;
+        } 
+    }
+};
