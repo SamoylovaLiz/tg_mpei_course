@@ -1,0 +1,18 @@
+https://leetcode.com/problems/find-the-town-judge/
+
+class Solution {
+public:
+    int findJudge(int N, vector<vector<int>>& trust) {
+		vector<int> emyveratvce(N + 1), onveritli(N + 1);
+		for (auto t : trust) {
+			++onveritli[t[0]];
+			++emyveratvce[t[1]];
+		}
+		for (int i = 1; i <= N; ++i) {
+			if (emyveratvce[i] == N - 1 && onveritli[i] == 0)//если все верят человеку и он не верит никому
+                return i;
+		}
+            
+		return -1;
+    }
+};
