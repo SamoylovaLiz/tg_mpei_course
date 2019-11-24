@@ -1,0 +1,18 @@
+https://leetcode.com/problems/employee-importance/
+
+class Solution {
+public:
+    int getImportance(vector<Employee*> employees, int id) {
+        map<int, Employee*> map;
+        for (auto emp : employees) 
+            map[emp->id] = emp;
+        return sumImportance(id, map);
+    }
+    
+    int sumImportance(int id, map<int, Employee*> map) {
+        int res = map[id]->importance;
+        for (auto ids : map[id]->subordinates)
+            res += sumImportance(ids, map);
+        return res;
+    }
+};
