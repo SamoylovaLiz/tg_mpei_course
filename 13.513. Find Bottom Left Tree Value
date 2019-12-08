@@ -2,47 +2,31 @@ https://leetcode.com/problems/find-bottom-left-tree-value/
 
 class Solution {
 public:
-    Node* cloneGraph(Node* node) {
-        unordered_map<Node*, Node*> mp;
-        unordered_set<Node*> visited;
-        
-        queue<Node*> q;
-        q.push(node);
-        visited.insert(node);
-        
-        while (!q.empty()){
-            Node* cur = q.front();
-            q.pop();
-            
-            Node* cur_copy = new Node;
-            cur_copy->val = cur->val;
-            mp[cur] = cur_copy;
-            for (Node* u : cur->neighbors){
-                if (visited.find(u) == visited.end()){
-                    visited.insert(u);
-                    q.push(u);
-                }
-            }
+    vector<int> v;
+    int height(TreeNode* root){
+        if(root == NULL)
+            return 0;
+        return 1 + max(height(root->left),height(root->right));
+    }
+    
+    void fun2(TreeNode* root, int level) {
+        if(root == NULL)
+            return;
+        if(level == 1)
+            v.push_back(root->val);
+        if(level > 1){
+            fun2(root->left, level - 1);
+            fun2(root->right, level - 1);
         }
-        
-        visited.clear();
-        visited.insert(node);
-        q.push(node);
-        while (!q.empty()){
-            Node* cur = q.front();
-            q.pop();
-            
-            Node* cur_copy = mp[cur];
-            for (Node* u : cur->neighbors){
-                cur_copy->neighbors.push_back(mp[u]);
-                
-                if (visited.find(u) == visited.end()){
-                    visited.insert(u);
-                    q.push(u);
-                }
-            }
-        }
-        
-        return mp[node];
+    }
+    
+    void fun(TreeNode* root){
+        int h = height(root);
+        fun2(root, h);
+    }
+    
+    int findBottomLeftValue(TreeNode* root) {
+        fun(root);
+        return v[0];
     }
 };
