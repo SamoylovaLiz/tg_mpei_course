@@ -1,0 +1,48 @@
+https://leetcode.com/problems/clone-graph/
+
+class Solution {
+public:
+    Node* cloneGraph(Node* node) {
+        unordered_map<Node*, Node*> mp;
+        unordered_set<Node*> visited;
+        
+        queue<Node*> q;
+        q.push(node);
+        visited.insert(node);
+        
+        while (!q.empty()){
+            Node* cur = q.front();
+            q.pop();
+            
+            Node* cur_copy = new Node;
+            cur_copy->val = cur->val;
+            mp[cur] = cur_copy;
+            for (Node* u : cur->neighbors){
+                if (visited.find(u) == visited.end()){
+                    visited.insert(u);
+                    q.push(u);
+                }
+            }
+        }
+        
+        visited.clear();
+        visited.insert(node);
+        q.push(node);
+        while (!q.empty()){
+            Node* cur = q.front();
+            q.pop();
+            
+            Node* cur_copy = mp[cur];
+            for (Node* u : cur->neighbors){
+                cur_copy->neighbors.push_back(mp[u]);
+                
+                if (visited.find(u) == visited.end()){
+                    visited.insert(u);
+                    q.push(u);
+                }
+            }
+        }
+        
+        return mp[node];
+    }
+};
